@@ -1,14 +1,10 @@
 'use client'
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, Coffee, Star } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
-  const [currentNotification, setCurrentNotification] = useState(0);
-  const [showNotification, setShowNotification] = useState(false);
-
   const scrollToWaitlist = () => {
     const waitlistSection = document.getElementById('waitlist');
     waitlistSection?.scrollIntoView({ behavior: 'smooth' });
