@@ -20,7 +20,7 @@ export default function QuoteSection() {
     <div ref={ref} className="py-16 overflow-hidden">
       <motion.div
         style={{ opacity, scale }}
-        className="w-full text-center font-bold text-gray-300 text-4xl md:text-5xl lg:text-6xl leading-tight"
+        className="max-w-6xl mx-auto px-6 text-center font-bold text-gray-300 text-4xl md:text-5xl lg:text-6xl leading-tight"
       >
         Small gestures of love, perfectly timed, create the strongest bonds.
       </motion.div>

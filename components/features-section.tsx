@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { useState } from 'react';
-import { motion } from "framer-motion";
+import { useState, useRef } from 'react';
+import { motion, useInView } from "framer-motion";
 import { Calendar, Heart, SmilePlus, Bell, Coffee, Star } from 'lucide-react';
 import { Notification } from './ui/notification';
 
@@ -50,29 +50,26 @@ const features = [
 
 export default function FeaturesSection() {
   const [activeNotification, setActiveNotification] = useState<number | null>(null);
+  const textRef = useRef(null);
+  const isInView = useInView(textRef);
 
   return (
     <section className="py-20 px-4 relative">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          ref={textRef}
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <motion.h2 
             className="text-4xl font-bold mb-6 bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Love.AI : Your relationship wingman, powered by advanced AI technology
+            Love.AI: Your relationship wingman, powered by advanced AI technology
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-300 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
           >
             Love is in the details. We make sure you never miss them.
           </motion.p>
@@ -84,7 +81,7 @@ export default function FeaturesSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+              whileHover={{ scale: 1.05 }}
               className="bg-gray-900 rounded-lg p-6 shadow-lg cursor-pointer overflow-hidden relative z-10"
               onMouseEnter={() => setActiveNotification(index)}
               onMouseLeave={() => setActiveNotification(null)}
@@ -121,4 +118,3 @@ export default function FeaturesSection() {
     </section>
   );
 }
-
