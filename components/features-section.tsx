@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from "framer-motion";
 import { Calendar, Heart, SmilePlus, Bell, Coffee, Star } from 'lucide-react';
 import { Notification } from './ui/notification';
@@ -51,13 +51,35 @@ const features = [
 export default function FeaturesSection() {
   const [activeNotification, setActiveNotification] = useState<number | null>(null);
   const textRef = useRef(null);
+
+  // Adjust the `useInView` hook to detect when the section is fully visible or completely out
   const isInView = useInView(textRef);
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+
+    if (isInView) {
+      let index = 0; // Start with the first notification
+      setActiveNotification(index);
+
+      timer = setInterval(() => {
+        index = (index + 1) % features.length; // Cycle through notifications
+        setActiveNotification(index);
+      }, 2000); // Change every 2.5 seconds
+    } else {
+      setActiveNotification(null); // Hide notifications when section is fully out of view
+      if (timer) clearInterval(timer);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer); // Cleanup on unmount
+    };
+  }, [isInView]);
+
   return (
-    <section className="py-20 px-4 relative">
+    <section className="py-20 px-4 relative" ref={textRef}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          ref={textRef}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -79,12 +101,9 @@ export default function FeaturesSection() {
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }} // Always keep features visible
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              className="bg-gray-900 rounded-lg p-6 shadow-lg cursor-pointer overflow-hidden relative z-10"
-              onMouseEnter={() => setActiveNotification(index)}
-              onMouseLeave={() => setActiveNotification(null)}
+              className="bg-gray-900 rounded-lg p-6 shadow-lg overflow-hidden relative z-10"
             >
               <motion.div
                 initial={{ y: 0 }}
