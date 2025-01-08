@@ -52,7 +52,7 @@ export default function FeaturesSection() {
   const [activeNotification, setActiveNotification] = useState<number | null>(null);
   const textRef = useRef(null);
 
-  // Adjust the `useInView` hook to detect when the section is fully visible or completely out
+  // Simplified use of useInView
   const isInView = useInView(textRef);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function FeaturesSection() {
       timer = setInterval(() => {
         index = (index + 1) % features.length; // Cycle through notifications
         setActiveNotification(index);
-      }, 2000); // Change every 2.5 seconds
+      }, 2500); // Change every 2.5 seconds
     } else {
       setActiveNotification(null); // Hide notifications when section is fully out of view
       if (timer) clearInterval(timer);
